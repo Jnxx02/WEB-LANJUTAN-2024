@@ -1,6 +1,6 @@
 from app import db
 
-class DataDosen(db.Model):
+class Dosen_Model(db.Model):
     __tablename__ = "data_dosen"
 
     nip = db.Column(db.String(30), primary_key=True)

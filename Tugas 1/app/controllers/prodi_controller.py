@@ -1,6 +1,6 @@
 from app import app, db
 from flask import request, jsonify
-from app.models.DataProdi import DataProdi
+from app.models.prodi_model import DataProdi
 
 @app.route("/data-prodi", methods=["POST", "GET"])
 def data_prodis():

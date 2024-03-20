@@ -1,6 +1,6 @@
 from app import app, db
 from flask import request, jsonify
-from app.models.DataDokumen import DataDokumen
+from app.models.dokumen_model import DataDokumen
 
 @app.route("/data-dokumen", methods=["POST", "GET"])
 def data_dokumens():

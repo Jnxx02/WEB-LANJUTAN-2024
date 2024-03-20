@@ -1,6 +1,6 @@
 from app import app, db
 from flask import request, jsonify
-from app.models.DataDosen import DataDosen
+from app.models.dosen_model import DataDosen
 
 @app.route("/data-dosen", methods=["POST", "GET"])
 def data_dosens():

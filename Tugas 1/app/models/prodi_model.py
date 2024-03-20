@@ -1,6 +1,6 @@
 from app import db
 
-class DataProdi(db.Model):
+class Prodi_Model(db.Model):
     __tablename__ = "data_prodi"
 
     id = db.Column(db.Integer, primary_key=True)

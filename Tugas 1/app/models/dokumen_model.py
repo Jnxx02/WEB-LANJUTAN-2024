@@ -1,7 +1,7 @@
 from app import db
 from sqlalchemy import Enum
 
-class DataDokumen(db.Model):
+class Dokumen_Model(db.Model):
     __tablename__ = "data_dokumen"
 
     id = db.Column(db.Integer, primary_key=True)

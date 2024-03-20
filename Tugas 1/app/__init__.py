@@ -8,4 +8,4 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 
-from app.controllers import datadosen_controller, dataprodi_controller, datadokumen_controller
+from app.controllers import dokumen_controller, dosen_controller, prodi_controller
