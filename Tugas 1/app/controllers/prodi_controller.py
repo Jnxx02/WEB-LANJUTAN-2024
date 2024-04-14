@@ -1,6 +1,6 @@
 from app import app, db
 from flask import request, jsonify
-from app.models.prodi_model import DataProdi
+from app.models.prodi_model import Prodi_Model
 
 @app.route("/data-prodi", methods=["POST", "GET"])
 def data_prodis():
@@ -9,14 +9,14 @@ def data_prodis():
         kode_prodi = request.json["kode_prodi"]
         nama_prodi = request.json["nama_prodi"]
 
-        new_dataprodi = DataProdi(id=id, kode_prodi=kode_prodi, nama_prodi=nama_prodi)
+        new_dataprodi = Prodi_Model(id=id, kode_prodi=kode_prodi, nama_prodi=nama_prodi)
         db.session.add(new_dataprodi)
         db.session.commit()
 
         return jsonify({"message": "Data Prodi berhasil ditambahkan"})
     
     if request.method == "GET":
-        dataprodi = DataProdi.query.all()
+        dataprodi = Prodi_Model.query.all()
         print(dataprodi)
         dataprodi_list = []
         for prodi in dataprodi:
@@ -29,7 +29,7 @@ def data_prodis():
     
 @app.route("/data-prodi/<id>", methods=["GET", "PUT", "DELETE"])
 def data_prodi(id):
-    dataprodi = DataProdi.query.get_or_404(id)
+    dataprodi = Prodi_Model.query.get_or_404(id)
 
     if request.method == "GET":
         return jsonify({

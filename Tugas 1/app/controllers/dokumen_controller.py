@@ -1,6 +1,6 @@
 from app import app, db
 from flask import request, jsonify
-from app.models.dokumen_model import DataDokumen
+from app.models.dokumen_model import Dokumen_Model
 
 @app.route("/data-dokumen", methods=["POST", "GET"])
 def data_dokumens():
@@ -14,14 +14,14 @@ def data_dokumens():
         if type_dokumen != "file" and type_dokumen != "url":
             return jsonify({"message": "Tipe dokumen harus file atau url"})
 
-        new_datadokumen = DataDokumen(id=id, nip=nip, type_dokumen=type_dokumen, nama_dokumen=nama_dokumen, nama_file=nama_file)
+        new_datadokumen = Dokumen_Model(id=id, nip=nip, type_dokumen=type_dokumen, nama_dokumen=nama_dokumen, nama_file=nama_file)
         db.session.add(new_datadokumen)
         db.session.commit()
 
         return jsonify({"message": "Data Dokumen berhasil ditambahkan"})
     
     if request.method == "GET":
-        datadokumen = DataDokumen.query.all()
+        datadokumen = Dokumen_Model.query.all()
         print(datadokumen)
         datadokumen_list = []
         for dokumen in datadokumen:
@@ -36,7 +36,7 @@ def data_dokumens():
     
 @app.route("/data-dokumen/<id>", methods=["GET", "PUT", "DELETE"])
 def data_dokumen(id):
-    datadokumen = DataDokumen.query.get_or_404(id)
+    datadokumen = Dokumen_Model.query.get_or_404(id)
 
     if request.method == "GET":
         return jsonify({
