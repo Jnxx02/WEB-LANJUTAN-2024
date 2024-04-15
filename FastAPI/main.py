@@ -12,19 +12,19 @@ mydb = mysql.connector.connect(
 )
 mycursor = mydb.cursor()
 
-# Model Pydantic untuk entitas DataProdi
-class DataProdi(BaseModel):
+# Model Pydantic untuk entitas Data Prodi
+class Prodi_Model(BaseModel):
     kode_prodi: str
     nama_prodi: str
 
-# Model Pydantic untuk entitas DataDosen
-class DataDosen(BaseModel):
+# Model Pydantic untuk entitas Data Dosen
+class Dosen_Model(BaseModel):
     nip: str
     nama_lengkap: str
     prodi_id: int
 
-# Model Pydantic untuk entitas DataDokumen
-class DataDokumen(BaseModel):
+# Model Pydantic untuk entitas Data Dokumen
+class Dokumen_Model(BaseModel):
     nip: str
     type_dokumen: str
     nama_dokumen: str
@@ -77,15 +77,15 @@ async def login(login_data: Login):
         raise HTTPException(status_code=401, detail="Username atau password salah")
 
 # CRUD Data Prodi
-@app.post("/prodi/")
-async def create_prodi(data_prodi: DataProdi, token: dict = Depends(authenticate_user)):
+@app.post("/data-prodi/")
+async def create_prodi(data_prodi: Prodi_Model, token: dict = Depends(authenticate_user)):
     sql = "INSERT INTO data_prodi (kode_prodi, nama_prodi) VALUES (%s, %s)"
     val = (data_prodi.kode_prodi, data_prodi.nama_prodi)
     mycursor.execute(sql, val)
     mydb.commit()
     return {"message": "Data Prodi telah ditambahkan"}
 
-@app.get("/prodi/{prodi_id}")
+@app.get("/data-prodi/{prodi_id}")
 async def read_prodi(prodi_id: int):
     mycursor.execute("SELECT * FROM data_prodi WHERE id = %s", (prodi_id,))
     result = mycursor.fetchone()
@@ -94,30 +94,30 @@ async def read_prodi(prodi_id: int):
     else:
         raise HTTPException(status_code=404, detail="Prodi not found")
 
-@app.put("/prodi/{prodi_id}")
-async def update_prodi(prodi_id: int, data_prodi: DataProdi, token: dict = Depends(authenticate_user)):
+@app.put("/data-prodi/{prodi_id}")
+async def update_prodi(prodi_id: int, data_prodi: Prodi_Model, token: dict = Depends(authenticate_user)):
     sql = "UPDATE data_prodi SET kode_prodi = %s, nama_prodi = %s WHERE id = %s"
     val = (data_prodi.kode_prodi, data_prodi.nama_prodi, prodi_id)
     mycursor.execute(sql, val)
     mydb.commit()
     return {"message": "Data Prodi telah diperbarui"}
 
-@app.delete("/prodi/{prodi_id}")
+@app.delete("/data-prodi/{prodi_id}")
 async def delete_prodi(prodi_id: int, token: dict = Depends(authenticate_user)):
     mycursor.execute("DELETE FROM data_prodi WHERE id = %s", (prodi_id,))
     mydb.commit()
     return {"message": "Data Prodi telah dihapus"}
 
 # CRUD Data Dosen
-@app.post("/dosen/")
-async def create_dosen(data_dosen: DataDosen, token: dict = Depends(authenticate_user)):
+@app.post("/data-dosen/")
+async def create_dosen(data_dosen: Dosen_Model, token: dict = Depends(authenticate_user)):
     sql = "INSERT INTO data_dosen (nip, nama_lengkap, prodi_id) VALUES (%s, %s, %s)"
     val = (data_dosen.nip, data_dosen.nama_lengkap, data_dosen.prodi_id)
     mycursor.execute(sql, val)
     mydb.commit()
     return {"message": "Data Dosen telah ditambahkan"}
 
-@app.get("/dosen/{nip}")
+@app.get("/data-dosen/{nip}")
 async def read_dosen(nip: str):
     mycursor.execute("SELECT * FROM data_dosen WHERE nip = %s", (nip,))
     result = mycursor.fetchone()
@@ -126,30 +126,30 @@ async def read_dosen(nip: str):
     else:
         raise HTTPException(status_code=404, detail="Dosen not found")
 
-@app.put("/dosen/{nip}")
-async def update_dosen(nip: str, data_dosen: DataDosen, token: dict = Depends(authenticate_user)):
+@app.put("/data-dosen/{nip}")
+async def update_dosen(nip: str, data_dosen: Dosen_Model, token: dict = Depends(authenticate_user)):
     sql = "UPDATE data_dosen SET nip = %s,nama_lengkap = %s, prodi_id = %s WHERE nip = %s"
     val = (data_dosen.nip,data_dosen.nama_lengkap, data_dosen.prodi_id, nip)
     mycursor.execute(sql, val)
     mydb.commit()
     return {"message": "Data Dosen telah diperbarui"}
 
-@app.delete("/dosen/{nip}")
+@app.delete("/data-dosen/{nip}")
 async def delete_dosen(nip: str, token: dict = Depends(authenticate_user)):
     mycursor.execute("DELETE FROM data_dosen WHERE nip = %s", (nip,))
     mydb.commit()
     return {"message": "Data Dosen telah dihapus"}
 
 # CRUD Data Dokumen
-@app.post("/dokumen/")
-async def create_dokumen(data_dokumen: DataDokumen, token: dict = Depends(authenticate_user)):
+@app.post("/data-dokumen/")
+async def create_dokumen(data_dokumen: Dokumen_Model, token: dict = Depends(authenticate_user)):
     sql = "INSERT INTO data_dokumen (nip, type_dokumen, nama_dokumen, nama_file) VALUES (%s, %s, %s, %s)"
     val = (data_dokumen.nip, data_dokumen.type_dokumen, data_dokumen.nama_dokumen, data_dokumen.nama_file)
     mycursor.execute(sql, val)
     mydb.commit()
     return {"message": "Data Dokumen telah ditambahkan"}
 
-@app.get("/dokumen/{dokumen_id}")
+@app.get("/data-dokumen/{dokumen_id}")
 async def read_dokumen(dokumen_id: int):
     mycursor.execute("SELECT * FROM data_dokumen WHERE id = %s", (dokumen_id,))
     result = mycursor.fetchone()
@@ -164,15 +164,15 @@ async def read_dokumen(dokumen_id: int):
     else:
         raise HTTPException(status_code=404, detail="Dokumen not found")
 
-@app.put("/dokumen/{dokumen_id}")
-async def update_dokumen(dokumen_id: int, data_dokumen: DataDokumen, token: dict = Depends(authenticate_user)):
+@app.put("/data-dokumen/{dokumen_id}")
+async def update_dokumen(dokumen_id: int, data_dokumen: Dokumen_Model, token: dict = Depends(authenticate_user)):
     sql = "UPDATE data_dokumen SET nip = %s,type_dokumen = %s, nama_dokumen = %s, nama_file = %s WHERE id = %s"
     val = (data_dokumen.nip,data_dokumen.type_dokumen, data_dokumen.nama_dokumen, data_dokumen.nama_file, dokumen_id)
     mycursor.execute(sql, val)
     mydb.commit()
     return {"message": "Data Dokumen telah diperbarui"}
 
-@app.delete("/dokumen/{dokumen_id}")
+@app.delete("/data-dokumen/{dokumen_id}")
 async def delete_dokumen(dokumen_id: int, token: dict = Depends(authenticate_user)):
     mycursor.execute("DELETE FROM data_dokumen WHERE id = %s", (dokumen_id,))
     mydb.commit()
